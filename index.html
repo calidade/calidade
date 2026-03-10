@@ -23,7 +23,12 @@ height:100vh;
 #bpm{
 font-size:500px;
 font-weight:bold;
+}
+
+#rpm{
+font-size:120px;
 margin-bottom:40px;
+color:#2ecc71;
 }
 
 button{
@@ -51,6 +56,10 @@ background:#e74c3c;
 
 #bpm{
 font-size:22vw;
+}
+
+#rpm{
+font-size:8vw;
 margin-bottom:40px;
 }
 
@@ -70,6 +79,7 @@ border-radius:16px;
 <body>
 
 <div id="bpm">0</div>
+<div id="rpm">0 RPM</div>
 
 <button onclick="tap()">CONTEO BPM</button>
 <button id="reset" onclick="reset()">RESETEAR</button>
@@ -98,19 +108,38 @@ intervals.push(taps[i] - taps[i-1]);
 let avg = intervals.reduce((a,b)=>a+b) / intervals.length;
 
 let bpm = 60000 / avg;
+bpm = Math.round(bpm);
 
-document.getElementById("bpm").innerText = Math.round(bpm);
+document.getElementById("bpm").innerText = bpm;
+
+calcularRPM(bpm);
 
 }
+
+}
+
+function calcularRPM(bpm){
+
+let rpm;
+
+if(bpm >= 111){
+rpm = Math.round(bpm / 2);
+}else{
+rpm = bpm;
+}
+
+document.getElementById("rpm").innerText = rpm + " RPM Ciclo Indoor";
 
 }
 
 function reset(){
 taps = [];
 document.getElementById("bpm").innerText = "0";
+document.getElementById("rpm").innerText = "0 RPM";
 }
 
 </script>
 
 </body>
 </html>
+
