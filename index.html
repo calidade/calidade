@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Contador de BPM</title>
+
+<style>
+
+body{
+margin:0;
+background:#111;
+color:white;
+font-family:Arial;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
+}
+
+#bpm{
+font-size:500px;
+font-weight:bold;
+margin-bottom:40px;
+}
+
+button{
+font-size:30px;
+padding:20px 60px;
+cursor:pointer;
+border:none;
+background:#2ecc71;
+color:white;
+border-radius:10px;
+}
+
+button:active{
+transform:scale(0.95);
+}
+
+#reset{
+margin-top:20px;
+background:#e74c3c;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="bpm">0</div>
+
+<button onclick="tap()">CONTEO BPM</button>
+<button id="reset" onclick="reset()">RESETEAR</button>
+
+<script>
+
+let taps = [];
+
+function tap(){
+
+let now = Date.now();
+taps.push(now);
+
+if(taps.length > 10){
+taps.shift();
+}
+
+if(taps.length >= 2){
+
+let intervals = [];
+
+for(let i=1;i<taps.length;i++){
+intervals.push(taps[i] - taps[i-1]);
+}
+
+let avg = intervals.reduce((a,b)=>a+b) / intervals.length;
+
+let bpm = 60000 / avg;
+
+document.getElementById("bpm").innerText = Math.round(bpm);
+
+}
+
+}
+
+function reset(){
+taps = [];
+document.getElementById("bpm").innerText = "0";
+}
+
+</script>
+
+</body>
+</html>
